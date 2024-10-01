@@ -232,10 +232,14 @@ body {
       display: none; /* Hide by default */
       flex-direction: column;
       width: 100%;
+      max-width: 100vw; /* Prevent overflow */
       position: absolute;
       top: 48px; /* Below navbar */
       left: 0;
       background-color: rgba(240, 240, 240, 0.9);
+      align-items: flex-end;
+      padding: 10px;
+      box-sizing: border-box; /* Include padding in width */
   }
 
   .nav-links.active {
@@ -245,10 +249,15 @@ body {
   .nav-links a {
     font-size: 16px; /* Increase font size in expanded menu */
     padding: 10px; /* Add some padding for better touch targets */
+    text-align: right;
+    width: 100%; /* Full width for links */
+    box-sizing: border-box; /* Include padding in width */
   }
 
   .nav-links li {
     margin: 15px 0; /* Increased spacing for vertical layout */
+    width: 100%;
+    text-align: right;
   }
 
   .hamburger {
