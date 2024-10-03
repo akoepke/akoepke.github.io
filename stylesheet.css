@@ -79,6 +79,16 @@ heading {
   font-size: 22px;
 }
 
+
+.custom-heading {
+    font-family: 'Lato', Verdana, Helvetica, sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0; /* Reset margin */
+    padding: 0; /* Reset padding */
+}
+
+
 papertitle {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
@@ -172,7 +182,7 @@ body {
 
 .logo {
   color: black;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 16px;
 }
 
