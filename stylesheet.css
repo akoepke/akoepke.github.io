@@ -138,6 +138,11 @@ section {
   scroll-margin-top: 70px; /* Offset for the fixed navbar */
 }
 
+/* Specific adjustment for the news  heading */
+#news {
+  scroll-margin-top: 70px; /* Offset for the fixed navbar */
+}
+
 .team-section {
     text-align: center; /* Center the heading */
     padding: 20px; /* Optional padding */
