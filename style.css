@@ -138,30 +138,35 @@ name {
 }
 
 .team-members {
-  display: flex;
-  flex-wrap: wrap; /* Allow items to wrap to the next line */
-  justify-content: center; /* Center items horizontally */
-  gap: 70px 10px; /* Spacing between members */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Max 3 per row */
+  gap: 70px 10px;
+  justify-items: center;
   margin-bottom: 2.4em;
 }
 
+@media (max-width: 600px) {
+  .team-members {
+    grid-template-columns: repeat(2, 1fr); /* Min 2 per row */
+  }
+}
+
 .member {
-  flex: 0 1 200px; /* Fixed width with no growth */
-  max-width: 200px; /* Ensure uniform size */
-  text-align: center; /* Center align content inside */
-  box-sizing: border-box; /* Include padding and borders in size calculation */
-  display: flex; /* Use flexbox for the member content */
-  flex-direction: column; /* Stack items vertically */
-  align-items: center; /* Center items horizontally */
+  width: 200px;
+  text-align: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .member img {
-  width: 65px; /* Fixed width for the image */
-  height: 65px; /* Fixed height for the image */
-  border-radius: 50%; /* Make images circular */
-  border: 2px solid #ccc; /* Optional: add a border */
-  object-fit: cover; /* Ensure images fill their container without distortion */
-  display: block; /* Remove extra space below the image */
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  object-fit: cover;
+  display: block;
 }
 
 /* navigation */
