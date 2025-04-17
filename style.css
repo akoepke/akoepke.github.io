@@ -349,3 +349,14 @@ table#pubs tr td:nth-child(2) {
 table#pubs tr td[colspan="2"] {
   width: 100%;
 }
+
+.social-icons {
+  margin-top: 0.5em;
+}
+
+.social-icons a {
+  margin: 0 4px;
+  color: #2a65c3;
+  font-size: 1.2em;
+  text-decoration: none;
+}
