@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="description" content="It's Never Too Late: Noise Optimization for Collapse Recovery in Trained Diffusion Models">
+  <meta name="keywords" content="Diffusion Models, Noise Optimization, Image Generation, Diversity">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>It's Never Too Late: Noise Optimization for Collapse Recovery</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="./static/images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="./static/images/favicon.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+<script>window.currentExample = 'cat';</script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">It's Never Too Late:<br>Noise Optimization for Collapse Recovery in Trained Diffusion Models</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://anneharrington.github.io/">Anne Harrington</a><sup>1*</sup>,</span>
+            <span class="author-block">
+              <a href="https://akoepke.github.io/">A. Sophia Koepke</a><sup>1,2,3*</sup>,</span>
+            <br>
+            <span class="author-block">
+              <a href="https://sgk98.github.io/">Shyamgopal Karthik</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://people.eecs.berkeley.edu/~trevor/">Trevor Darrell</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://people.eecs.berkeley.edu/~efros/">Alexei A. Efros</a><sup>1</sup>
+            </span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>UC Berkeley,</span>
+            <span class="author-block"><sup>2</sup>University of Tübingen, Tübingen AI Center,</span>
+            <span class="author-block"><sup>3</sup>Technical University of Munich, MCML</span>
+          </div>
+          
+          <div class="is-size-6 publication-authors">
+            <span class="author-block"><sup>*</sup>Equal contribution</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="./static/images/paper.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (coming soon)</span>
+                  </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hero Figure -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="teaser-figure">
+        <img src="./static/images/teaser.png" alt="Teaser figure showing noise optimization process">
+      </div>
+      <p class="has-text-centered is-size-5" style="margin-top: 1.5rem; font-weight: 500;">
+        <strong>TL;DR:</strong> We increase diversity in diffusion model outputs that have collapsed to repetitive images by optimizing the initial random noise.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Abstract -->
+<section class="section" id="abstract">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-11">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Contemporary text-to-image models exhibit a surprising degree of mode collapse, as can be seen when sampling several images given the same text prompt. 
+            While previous work has attempted to address this issue by steering the model using guidance mechanisms, or by generating a large pool of candidates and refining them, in this work we take a different direction and aim for diversity in generations via noise optimization. Specifically, <strong>we show that a simple noise optimization objective can mitigate mode collapse</strong> while preserving the fidelity of the base model. 
+            We also analyze the frequency characteristics of the noise and show that alternative noise initializations with different frequency profiles can improve both optimization and search.
+            Our experiments demonstrate that noise optimization yields superior results in terms of generation quality and variety.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Approach -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-11">
+        <h2 class="title is-3">Approach: From Collapsed to Diverse</h2>
+        <br>
+        <p class="content has-text-justified">
+          Given a fixed text prompt and diffusion model, we optimize the noise initialization to increase visual diversity. Starting from i.i.d. noise samples, we generate a set of images. Using diversity and quality objectives (e.g. DINO dissimilarity, HPSv2), we update the noise to produce output images that capture more diversity per text prompt.
+        </p>
+        <br>
+        <div class="approach-figure">
+          <img src="./static/images/pipeline_onecolumn.jpg" alt="Pipeline overview showing the noise optimization approach">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Method Overview -->
+<section class="section">
+  <div class="container is-widescreen">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Sequential Diverse Generation</h2>
+        <p class="has-text-centered" style="margin-top: -1rem; margin-bottom: 1.5rem; color: #666;">Results generated with Flux.1 [schnell]</p>
+        
+        <!-- Interactive Animation -->
+        <div class="method-animation">
+          <div class="columns is-centered">
+            <div class="column is-11">
+              <!-- Slider for image count -->
+              <div class="image-slider-container">
+                <!-- Example selector buttons -->
+                <div class="buttons is-centered" style="margin-bottom: 1.5rem;">
+                  <button class="button is-medium is-info example-btn is-selected" data-example="cat">
+                    <span class="icon"><i class="fas fa-cat"></i></span>
+                    <span>Cat</span>
+                  </button>
+                  <button class="button is-medium is-info is-outlined example-btn" data-example="teddy_bear">
+                    <span class="icon"><i class="fas fa-paw"></i></span>
+                    <span>Teddy Bear</span>
+                  </button>
+                  <button class="button is-medium is-info is-outlined example-btn" data-example="flower">
+                    <span class="icon"><i class="fas fa-seedling"></i></span>
+                    <span>Flower</span>
+                  </button>
+                </div>
+                
+                <!-- Single slider -->
+                <div class="columns is-centered" style="margin-top: 1rem;">
+                  <div class="column is-8">
+                    <div class="columns is-vcentered">
+                      <div class="column is-3 has-text-centered">
+                        <span class="slider-label">i.i.d. samples</span>
+                      </div>
+                      <div class="column">
+                        <input class="slider is-fullwidth is-large is-info"
+                               id="image-slider"
+                               step="1" min="0" max="16" value="0" type="range">
+                      </div>
+                      <div class="column is-2 has-text-centered">
+                        <span class="slider-label">Ours</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Single mixed image grid -->
+                <div class="columns is-centered" style="margin-top: 1.5rem;">
+                  <div class="column is-8">
+                    <figure class="image">
+                      <img id="mixed-images" src="./static/images/cat/grid_mixed_0.jpg" alt="Mixed samples">
+                    </figure>
+                    <p class="has-text-centered" style="margin-top: 1.5rem;"><strong><span id="ours-count">0</span> / 16 replaced with Ours</strong></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- BibTeX -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{harrington2025noisediv,
+  author    = {Harrington, Anne and Koepke, A. Sophia and Karthik, Shyamgopal and Darrell, Trevor and Efros, Alexei A.},
+  title     = {It's Never Too Late: Noise Optimization for Collapse Recovery in Trained Diffusion Models},
+  journal   = {arXiv preprint},
+  year      = {2025},
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            This website template is based on <a href="https://nerfies.github.io/">Nerfies</a> and licensed under a 
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
+
