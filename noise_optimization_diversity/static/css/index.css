@@ -1,5 +1,45 @@
 /* Custom styles for NoiseDiv project page */
 
+/* CSS Variables for Light and Dark Themes */
+:root {
+  /* Bulma overrides and custom colors */
+  --bulma-text: #4a4a4a;
+  --bulma-text-strong: #363636;
+  --bulma-background: #ffffff;
+  --bulma-footer-bg: #f5f5f5;
+  --bulma-pre-bg: #f5f5f5;
+  --bulma-code-bg: #f5f5f5;
+  --bulma-border: #dbdbdb;
+
+  /* Custom colors */
+  --method-name: #4a90d9;
+  --slider-label: #363636;
+  --shadow-light: var(--shadow-light);
+  --text-muted: #666666;
+  --button-bg: #ffffff;
+  --button-border: #dbdbdb;
+}
+
+/* Dark mode theme */
+[data-theme="dark"] {
+  /* Bulma overrides */
+  --bulma-text: #e8e8e8;
+  --bulma-text-strong: #ffffff;
+  --bulma-background: #1a1a1a;
+  --bulma-footer-bg: #252525;
+  --bulma-pre-bg: #2d2d2d;
+  --bulma-code-bg: #2d2d2d;
+  --bulma-border: #555555;
+
+  /* Custom colors */
+  --method-name: #6bb0ff;
+  --slider-label: #cccccc;
+  --shadow-light: rgba(0, 0, 0, 0.4);
+  --text-muted: #a0a0a0;
+  --button-bg: #2d2d2d;
+  --button-border: #555555;
+}
+
 .publication-title {
   font-family: 'Google Sans', sans-serif;
   font-size: 2.5rem !important;
@@ -17,7 +57,13 @@
 
 .method-name {
   font-weight: bold;
-  color: #4a90d9;
+  color: var(--method-name);
+}
+
+/* Make bold text more visible in dark mode */
+[data-theme="dark"] strong {
+  color: var(--bulma-text-strong);
+  font-weight: 700;
 }
 
 /* Body text - matching Nerfies defaults */
@@ -42,7 +88,7 @@
 .teaser-figure img {
   width: 100%;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px var(--shadow-light);
 }
 
 /* Approach figure (narrower than teaser) */
@@ -54,7 +100,7 @@
 .approach-figure img {
   width: 100%;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px var(--shadow-light);
 }
 
 /* Image slider container */
@@ -69,7 +115,7 @@
 .image-slider-container img {
   width: 100%;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px var(--shadow-light);
 }
 
 /* Limit sequential generation image width on wide screens */
@@ -81,7 +127,7 @@
 
 .slider-label {
   font-weight: bold;
-  color: #363636;
+  color: var(--slider-label);
   font-size: 0.85rem;
 }
 
@@ -108,7 +154,7 @@
 .results-grid img {
   width: 100%;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px var(--shadow-light);
 }
 
 /* Section styling */
@@ -127,7 +173,7 @@
 /* Footer */
 .footer {
   padding: 2rem 1.5rem;
-  background-color: #f5f5f5;
+  background-color: var(--bulma-footer-bg);
 }
 
 /* Button styling */
@@ -169,9 +215,136 @@
   .columns.is-centered .column {
     padding: 0.5rem;
   }
-  
+
   .results-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Bulma Dark Mode Overrides */
+[data-theme="dark"] body {
+  background-color: var(--bulma-background);
+  color: var(--bulma-text);
+}
+
+[data-theme="dark"] .hero {
+  background-color: var(--bulma-background);
+}
+
+[data-theme="dark"] .section {
+  background-color: var(--bulma-background);
+}
+
+[data-theme="dark"] .footer {
+  background-color: var(--bulma-footer-bg);
+  color: var(--bulma-text);
+}
+
+[data-theme="dark"] pre,
+[data-theme="dark"] code {
+  background-color: var(--bulma-pre-bg);
+  color: var(--bulma-text);
+}
+
+[data-theme="dark"] .title,
+[data-theme="dark"] .subtitle {
+  color: var(--bulma-text-strong);
+}
+
+[data-theme="dark"] .content p,
+[data-theme="dark"] .content {
+  color: var(--bulma-text);
+}
+
+[data-theme="dark"] a {
+  color: var(--method-name);
+}
+
+[data-theme="dark"] .button {
+  background-color: var(--button-bg);
+  color: var(--bulma-text);
+  border-color: var(--button-border);
+}
+
+[data-theme="dark"] .button:hover {
+  background-color: #3d3d3d;
+}
+
+[data-theme="dark"] .box {
+  background-color: var(--bulma-pre-bg);
+  color: var(--bulma-text);
+}
+
+[data-theme="dark"] .hero-body {
+  color: var(--bulma-text);
+}
+
+[data-theme="dark"] input[type="range"] {
+  background-color: var(--bulma-pre-bg);
+}
+
+/* Theme toggle button styles */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bulma-text-strong);
+  transition: color 0.3s ease, transform 0.3s ease;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.theme-toggle:hover {
+  color: var(--method-name);
+  transform: scale(1.1);
+}
+
+.theme-toggle svg {
+  width: 24px;
+  height: 24px;
+}
+
+[data-theme="light"] .sun-icon,
+[data-theme="dark"] .moon-icon {
+  display: none;
+}
+
+[data-theme="light"] .moon-icon,
+[data-theme="dark"] .sun-icon {
+  display: block;
+}
+
+/* Smooth color transitions for theme change */
+body,
+.hero,
+.section,
+.footer,
+a,
+.button,
+.title,
+.subtitle,
+.theme-toggle {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Respect user's motion preference */
+@media (prefers-reduced-motion: reduce) {
+  body,
+  .hero,
+  .section,
+  .footer,
+  a,
+  .button,
+  .title,
+  .subtitle,
+  .theme-toggle {
+    transition: none;
   }
 }
 

@@ -18,6 +18,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="icon" href="images/tubingen_icon.jpg" />
+    <script>
+      // Set theme immediately to prevent flash
+      (function() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+        const root = document.documentElement;
+        root.setAttribute('data-theme', theme);
+        // Set background immediately without transition
+        if (theme === 'dark') {
+          root.style.backgroundColor = '#1a1a1a';
+        }
+      })();
+    </script>
   </head>
   <body>
     <nav>
@@ -37,6 +51,22 @@
           <a href="mumol.html">Team</a>
         </li>
       </ul>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
     </nav>
     <div id="main-content">
       <table>
@@ -142,7 +172,7 @@
             /
             <a href="https://github.com/Bizilizi/VGGSounder">code</a>
             <br />
-            <span style="color: red; font-style: italic"
+            <span class="text-red italic"
               >New benchmark for measuring modality contributions in audio-visual foundation models.</span
             >
             <tr>
@@ -158,7 +188,7 @@
             <img src="images/continual_generation.jpg" alt="teaser-image" width="160" height="96" />
           </td>
           <td>
-            <a href="#">
+            <a href="https://arxiv.org/abs/2512.11867">
               <papertitle>On the dangers of bootstrapping generation for continual learning and beyond</papertitle>
             </a>
             <br />
@@ -231,7 +261,7 @@
             /
             <a href="https://openreview.net/forum?id=m50eKHCttz">openreview</a>
             <br />
-            <span style="color: red; font-style: italic">Spotlight.</span>
+            <span class="text-red italic">Spotlight.</span>
           </td>
         </tr>
         <tr>
@@ -324,7 +354,7 @@
             /
             <a href="https://www.youtube.com/watch?v=KfCpoPYK_CY">video</a>
             <br />
-            <span style="color: black; font-style: italic"
+            <span class="text-black italic"
               >A part of this was also presented at the TAG-ML Workshop at ICML 2023.</span
             >
           </td>
@@ -385,7 +415,7 @@
             /
             <a href="https://github.com/ExplainableML/ReGaDa">code</a>
             <br />
-            <span style="color: red; font-style: italic">Oral presentation.</span>
+            <span class="text-red italic">Oral presentation.</span>
           </td>
         </tr>
         <tr>
@@ -647,7 +677,7 @@
             /
             <a href="https://github.com/ExplainableML/CLEVR-X">code</a>
             <br />
-            <span style="color: black; font-style: italic"
+            <span class="text-black italic"
               >This was also presented at the CVPR 2022 Workshop on Explainable AI for Computer Vision (XAI4CV).</span
             >
           </td>
@@ -681,7 +711,7 @@
             /
             <a href="https://github.com/akoepke/audio-retrieval-benchmark">code</a>
             <br />
-            <span style="color: red; font-style: italic"
+            <span class="text-red italic"
               >Extension of the INTERSPEECH paper with a new dataset and new results.</span
             >
           </td>
@@ -714,7 +744,7 @@
             /
             <a href="https://github.com/oncescuandreea/audio-retrieval">code</a>
             <br />
-            <span style="color: red; font-style: italic">Shortlisted for best student paper award.</span>
+            <span class="text-red italic">Shortlisted for best student paper award.</span>
           </td>
         </tr>
         <tr>
@@ -769,7 +799,7 @@
             /
             <a href="https://www.robots.ox.ac.uk/~vgg/research/sighttosound/">project page</a>
             <br />
-            <span style="color: red; font-style: italic">Oral presentation.</span>
+            <span class="text-red italic">Oral presentation.</span>
           </td>
         </tr>
         <tr>
@@ -853,7 +883,7 @@
             /
             <a href="https://github.com/oawiles/FAb-Net">code</a>
             <br />
-            <span style="color: red; font-style: italic">Oral presentation.</span>
+            <span class="text-red italic">Oral presentation.</span>
           </td>
         </tr>
         <tr>
@@ -1009,6 +1039,7 @@
         <a href="https://github.com/jonbarron/jonbarron_website">here</a>.
       </p>
     </footer>
+    <script src="theme-toggle.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

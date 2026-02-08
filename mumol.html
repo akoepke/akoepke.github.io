@@ -8,6 +8,20 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="icon" href="images/tubingen_icon.jpg" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script>
+      // Set theme immediately to prevent flash
+      (function() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+        const root = document.documentElement;
+        root.setAttribute('data-theme', theme);
+        // Set background immediately without transition
+        if (theme === 'dark') {
+          root.style.backgroundColor = '#1a1a1a';
+        }
+      })();
+    </script>
   </head>
 
   <body>
@@ -28,14 +42,32 @@
           <a href="#">Team</a>
         </li>
       </ul>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
     </nav>
     <div id="main-content">
       <table>
         <tr>
           <td style="padding: 2.5%; width: 63%">
             <p style="text-align: center">
-              <img src="images/logo.png" alt="MuMoL"
-                style="width: 25%; min-width: 100px; max-width: 170px; height: auto; display: inline-block;">
+              <img src="images/logo_mumol.svg" alt="MuMoL" class="mumol-logo-light"
+                style="width: 25%; min-width: 100px; max-width: 180px; height: auto;">
+              <img src="images/logo_mumol_dark.svg" alt="MuMoL" class="mumol-logo-dark"
+                style="width: 25%; min-width: 100px; max-width: 180px; height: auto;">
             </p>
             <div style="margin-bottom: 2.4em; margin-top: 3.2em">
               <p>
@@ -91,7 +123,7 @@
             <img src="images/profile_ask.png" alt="A. Sophia" />
             <br />
             <a href="index.html">A. Sophia Koepke</a>
-            <span style="font-style: italic; color: gray; margin-top: 0.6em">Research group leader</span>
+            <span class="member-role">Research group leader</span>
             <div class="social-icons">
             <a href="mailto:removeifyouarehuman-a-sophia.koepke@tum.de"><i class="fa-solid fa-envelope"></i></a>
             <a href="https://akoepke.github.io/"><i class="fas fa-globe"></i></a>
@@ -103,7 +135,7 @@
             <img src="images/daniil.jpg" alt="Daniil" />
             <br />
             <a href="https://www.linkedin.com/in/daniil-zverev-b3032716b">Daniil Zverev</a>
-            <span style="font-style: italic; color: gray; margin-top: 0.6em">PhD student</span>
+            <span class="member-role">PhD student</span>
             <div class="social-icons">
             <a href="mailto:removeifyouarehuman-zverev@in.tum.de"><i class="fa-solid fa-envelope"></i></a>
             <a href="https://scholar.google.com/citations?user=-4l5Il4AAAAJ&hl"><i class="fa-solid fa-graduation-cap"></i></a>
@@ -114,7 +146,7 @@
             <img src="images/jianzhe.jpg" alt="Jianzhe" />
             <br />
             <a href="https://www.linkedin.com/in/jianzhe-liu/">Jianzhe Liu</a>
-            <span style="font-style: italic; color: gray; margin-top: 0.6em">PhD student</span>
+            <span class="member-role">PhD student</span>
             <div class="social-icons">
             <a href="https://scholar.google.com/citations?user=ii-do18AAAAJ&hl"><i class="fa-solid fa-graduation-cap"></i></a>
             <a href="https://www.linkedin.com/in/jianzhe-liu/"><i class="fab fa-linkedin"></i></a>
@@ -124,7 +156,7 @@
             <img src="images/shayan.jpg" alt="Shayan" />
             <br />
             <a href="https://www.linkedin.com/in/amirshayan-nasirimajd">Amirshayan Nasirimajd</a>
-            <span style="font-style: italic; color: gray; margin-top: 0.6em">PhD student</span>
+            <span class="member-role">PhD student</span>
             <div class="social-icons">
             <a href="#"><i class="fa-solid fa-envelope"></i></a>
             <a href="https://scholar.google.com/citations?user=Dwnk2tEAAAAJ&hl=en"><i class="fa-solid fa-graduation-cap"></i></a>
@@ -132,20 +164,10 @@
             </div>
           </div>
           <div class="member">
-            <img src="images/inken.jpg" alt="Inken" />
-            <br />
-            <a href="https://www.linkedin.com/in/inken-gr%C3%BCner/">Inken Gr&uuml;ner</a>
-            <span style="font-style: italic; color: gray; margin-top: 0.6em">Student assistant</span>
-            <div class="social-icons">
-            <a href="mailto:removeifyouarehuman-inken.gruener@tum.de"><i class="fa-solid fa-envelope"></i></a>
-            <a href="https://www.linkedin.com/in/inken-gruener/"><i class="fab fa-linkedin"></i></a>
-            </div>
-          </div>
-          <div class="member">
             <img src="images/felix.jpg" alt="Felix" />
             <br />
             <a href="https://www.linkedin.com/in/felix-f%C3%B6rster-316010235/">Felix Förster</a>
-            <span style="font-style: italic; color: gray; margin-top: 0.6em">Student assistant</span>
+            <span class="member-role">Student assistant</span>
             <div class="social-icons">
             <a href="mailto:removeifyouarehuman-f.foerster@tum.de"><i class="fa-solid fa-envelope"></i></a>
             <a href="https://www.linkedin.com/in/felix-f%C3%B6rster-316010235/"><i class="fab fa-linkedin"></i></a>
@@ -155,7 +177,7 @@
             <img src="images/danqing.jpg" alt="Danqing" />
             <br />
             <a href="https://www.linkedin.com/in/danqingchen-0b57b2205/">Danqing Chen</a>
-            <span style="font-style: italic; color: gray; margin-top: 0.6em">MSc student</span>
+            <span class="member-role">MSc student</span>
             <div class="social-icons">
             <a href="https://www.linkedin.com/in/danqingchen-0b57b2205/"><i class="fab fa-linkedin"></i></a>
             </div>
@@ -172,6 +194,7 @@
       </p>
     </footer>
 
+    <script src="theme-toggle.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
