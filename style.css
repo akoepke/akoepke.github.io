@@ -256,6 +256,7 @@ nav {
   position: fixed;
   top: 0;
   width: 100%;
+  box-sizing: border-box;
   z-index: 1000;
 }
 
@@ -304,7 +305,6 @@ nav {
   display: none;
   flex-direction: column;
   cursor: pointer;
-  margin-right: 20px;
   flex-shrink: 0;
 }
 
@@ -534,6 +534,22 @@ table#pubs tr.featured td,
     margin-right: 10px;
     margin-left: 0;
     order: -1;
+  }
+
+  .logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* MuMoL logo mobile size */
+@media (max-width: 768px) {
+  .mumol-logo-light,
+  .mumol-logo-dark {
+    min-width: 160px !important;
+    width: 40% !important;
   }
 }
 
