@@ -23,6 +23,8 @@
   // Set theme
   function setTheme(theme, save = true) {
     document.documentElement.setAttribute('data-theme', theme);
+    // Clear any inline background set by the anti-flash script in <head>
+    document.documentElement.style.backgroundColor = '';
 
     if (save) {
       localStorage.setItem('theme', theme);

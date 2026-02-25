@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Back into Plato's Cave: Examining Cross-modal Representational Convergence at Scale">
+  <meta name="keywords" content="Platonic Representation Hypothesis, Cross-modal Alignment, Representation Learning, Vision, Language">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Back into Plato's Cave: Examining Cross-modal Representational Convergence at Scale</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22white%22/><path d=%22M15,95 L15,55 Q15,15 50,15 Q85,15 85,55 L85,95 Z%22 fill=%22black%22/></svg>">
+
+  <!-- Open Graph / Twitter Card preview -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Back into Plato's Cave: Examining Cross-modal Representational Convergence at Scale">
+  <meta property="og:description" content="Back into Plato's Cave: Examining Cross-modal Representational Convergence at Scale">
+  <meta property="og:image" content="https://akoepke.github.io/cave_umwelten/images/cave_umwelten.png">
+  <meta property="og:url" content="https://akoepke.github.io/cave_umwelten/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Back into Plato's Cave: Examining Cross-modal Representational Convergence at Scale">
+  <meta name="twitter:description" content="Back into Plato's Cave: Examining Cross-modal Representational Convergence at Scale">
+  <meta name="twitter:image" content="https://akoepke.github.io/cave_umwelten/images/cave_umwelten.png">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RQ7M2DRCJE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RQ7M2DRCJE');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <script>
+    // Set theme immediately to prevent flash
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      const root = document.documentElement;
+      root.setAttribute('data-theme', theme);
+      if (theme === 'dark') {
+        root.style.backgroundColor = '#1a1a1a';
+      }
+    })();
+  </script>
+
+  <style>
+    /* CSS Variables for Light and Dark Themes */
+    :root {
+      --bulma-text: #4a4a4a;
+      --bulma-text-strong: #363636;
+      --bulma-background: #ffffff;
+      --bulma-footer-bg: #f5f5f5;
+      --bulma-pre-bg: #f5f5f5;
+      --bulma-code-bg: #f5f5f5;
+      --bulma-border: #dbdbdb;
+      --method-name: #4a90d9;
+      --shadow-light: rgba(0, 0, 0, 0.15);
+      --text-muted: #666666;
+      --button-bg: #ffffff;
+      --button-border: #dbdbdb;
+    }
+
+    [data-theme="dark"] {
+      --bulma-text: #e8e8e8;
+      --bulma-text-strong: #ffffff;
+      --bulma-background: #1a1a1a;
+      --bulma-footer-bg: #252525;
+      --bulma-pre-bg: #2d2d2d;
+      --bulma-code-bg: #2d2d2d;
+      --bulma-border: #555555;
+      --method-name: #6bb0ff;
+      --shadow-light: rgba(0, 0, 0, 0.4);
+      --text-muted: #a0a0a0;
+      --button-bg: #2d2d2d;
+      --button-border: #555555;
+    }
+
+    .publication-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 2.5rem !important;
+    }
+
+    .publication-authors {
+      margin-bottom: 0.75rem;
+      line-height: 2;
+    }
+
+    .author-block {
+      margin-right: 0.5rem;
+      display: inline-block;
+    }
+
+    .content p, .content {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .hero-body .subtitle, .section p:not(.fig-caption) {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* Teaser / figure styling */
+    .teaser-figure {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .teaser-figure img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px var(--shadow-light);
+    }
+
+    .figure-container {
+      margin: 1.5rem auto;
+    }
+
+    .figure-container img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px var(--shadow-light);
+    }
+
+    .figure-container.narrow {
+      max-width: 550px;
+    }
+
+    .figure-container.medium {
+      max-width: 750px;
+    }
+
+    .figure-container.wide {
+      max-width: 950px;
+    }
+
+
+    /* Figure pair grid */
+    .figure-pair-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      max-width: 950px;
+      margin: 1.5rem auto;
+    }
+
+    .figure-pair-grid img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px var(--shadow-light);
+    }
+
+    .figure-pair-grid .figure-cell {
+      text-align: center;
+    }
+
+    @media screen and (max-width: 480px) {
+      .figure-pair-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+      }
+    }
+
+    /* Stats cards */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      max-width: 700px;
+      margin: 2rem auto;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: var(--bulma-background);
+      border: 1px solid var(--bulma-border);
+      border-radius: 10px;
+    }
+
+    .stat-value {
+      font-family: 'Google Sans', monospace;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--method-name);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+      line-height: 1.4;
+    }
+
+    @media screen and (max-width: 600px) {
+      .stats-row { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+      .stat-card { padding: 0.75rem 0.5rem; }
+      .stat-value { font-size: 1.3rem; }
+      .stat-label { font-size: 0.65rem; }
+    }
+
+    /* Key finding box */
+    .finding-box {
+      background: var(--bulma-pre-bg);
+      border-radius: 10px;
+      padding: 1.5rem 1.75rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid var(--method-name);
+    }
+
+    .finding-box .finding-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--method-name);
+      margin-bottom: 0.5rem;
+    }
+
+    .finding-box h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--bulma-text-strong);
+    }
+
+    .finding-box p {
+      color: var(--text-muted);
+      margin-bottom: 0;
+    }
+
+    /* Highlight text */
+    .key-point {
+      background: linear-gradient(to bottom, transparent 60%, rgba(74, 144, 217, 0.2) 60%);
+      padding: 0 2px;
+    }
+
+    [data-theme="dark"] .key-point {
+      background: linear-gradient(to bottom, transparent 60%, rgba(107, 176, 255, 0.2) 60%);
+    }
+
+    /* Section styling */
+    .section { padding: 3rem 1.5rem; }
+    #abstract { padding-top: 1rem; }
+    .title.is-3 { margin-bottom: 2rem; }
+
+    /* Hero */
+    .hero.teaser { padding-top: 0; padding-bottom: 2rem; }
+    .hero.teaser .hero-body { padding-top: 1rem; }
+
+    /* Footer */
+    .footer {
+      padding: 2rem 1.5rem;
+      background-color: var(--bulma-footer-bg);
+    }
+
+    /* Publication links */
+    .publication-links .button { margin: 0.25rem; }
+
+    /* BibTeX */
+    .bibtex-block pre {
+      background-color: var(--bulma-pre-bg);
+      border-radius: 8px;
+      padding: 1.25rem;
+      overflow-x: auto;
+    }
+
+    /* Figure caption */
+    .fig-caption {
+      font-family: 'Inter', sans-serif !important;
+      font-size: 0.9rem !important;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      line-height: 1.55 !important;
+      text-align: center;
+      max-width: 750px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .fig-caption strong {
+      color: var(--bulma-text-strong);
+    }
+
+    /* Blockquote */
+    blockquote.styled-quote {
+      border-left: 3px solid var(--method-name);
+      padding: 0.25rem 0 0.25rem 1.5rem;
+      margin: 1.5rem 0;
+      font-style: italic;
+      color: var(--text-muted);
+    }
+
+    blockquote.styled-quote cite {
+      display: block;
+      font-style: normal;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      color: var(--text-muted);
+    }
+
+    /* Dark mode overrides */
+    [data-theme="dark"] body { background-color: var(--bulma-background); color: var(--bulma-text); }
+    [data-theme="dark"] .hero { background-color: var(--bulma-background); }
+    [data-theme="dark"] .section { background-color: var(--bulma-background); }
+    [data-theme="dark"] .footer { background-color: var(--bulma-footer-bg); color: var(--bulma-text); }
+    [data-theme="dark"] pre, [data-theme="dark"] code { background-color: var(--bulma-pre-bg); color: var(--bulma-text); }
+    [data-theme="dark"] .title, [data-theme="dark"] .subtitle { color: var(--bulma-text-strong); }
+    [data-theme="dark"] .content p, [data-theme="dark"] .content { color: var(--bulma-text); }
+    [data-theme="dark"] a { color: var(--method-name); }
+    [data-theme="dark"] .button { background-color: var(--button-bg); color: var(--bulma-text); border-color: var(--button-border); }
+    [data-theme="dark"] .button:hover { background-color: #3d3d3d; }
+    [data-theme="light"] .publication-links .button.is-dark { background-color: #fff; color: #363636; border-color: #dbdbdb; }
+    [data-theme="light"] .publication-links .button.is-dark:hover { background-color: #f5f5f5; border-color: #b5b5b5; }
+    [data-theme="dark"] strong { color: var(--bulma-text-strong); font-weight: 700; }
+    [data-theme="dark"] .stat-card { background-color: var(--bulma-pre-bg); border-color: var(--bulma-border); }
+
+    /* Theme toggle button */
+    .theme-toggle {
+      background: none; border: none; cursor: pointer;
+      padding: 8px; display: flex; align-items: center; justify-content: center;
+      color: var(--bulma-text-strong);
+      transition: color 0.3s ease, transform 0.3s ease;
+      position: fixed; top: 20px; right: 20px; z-index: 1000;
+    }
+    .theme-toggle:hover { color: var(--method-name); transform: scale(1.1); }
+    .theme-toggle svg { width: 24px; height: 24px; }
+    [data-theme="light"] .sun-icon, [data-theme="dark"] .moon-icon { display: none; }
+    [data-theme="light"] .moon-icon, [data-theme="dark"] .sun-icon { display: block; }
+
+    /* Interactive teaser */
+    :root {
+      --blob-fill: #e8eef5;
+    }
+    [data-theme="dark"] {
+      --blob-fill: #2a3040;
+    }
+
+    .teaser-vis-container {
+      position: relative;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    #teaser-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @keyframes hint-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .click-hint {
+      animation: hint-bounce 1.5s ease-in-out infinite;
+    }
+
+    @media (max-width: 720px) {
+      .click-hint {
+        display: none !important;
+      }
+      .persona-buttons {
+        padding-top: 0.25rem !important;
+      }
+    }
+
+    @keyframes persona-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(224,96,128,0.3); }
+      50% { box-shadow: 0 0 12px 6px rgba(224,96,128,0.22); }
+    }
+
+    .persona-btn {
+      animation: persona-pulse 1.8s ease-in-out infinite;
+      padding: 0.9rem 1.7rem !important;
+      font-size: 1.08rem !important;
+      border-radius: 30px !important;
+      border: 1px solid rgba(224,96,128,0.3) !important;
+      border-bottom: 3px solid rgba(180,60,100,0.4) !important;
+      background: linear-gradient(180deg, rgba(224,96,128,0.12), rgba(168,85,192,0.08)) !important;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.12), 0 1px 3px rgba(224,96,128,0.15), inset 0 1px 0 rgba(255,255,255,0.25);
+    }
+
+    .persona-btn:hover {
+      animation: none;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15), 0 3px 8px rgba(224,96,128,0.25), inset 0 1px 0 rgba(255,255,255,0.3);
+      border-color: rgba(224,96,128,0.6) !important;
+      border-bottom: 3px solid rgba(180,60,100,0.5) !important;
+      background: linear-gradient(180deg, rgba(224,96,128,0.18), rgba(168,85,192,0.12)) !important;
+    }
+
+    .persona-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1), inset 0 1px 2px rgba(0,0,0,0.1);
+      border-bottom: 1px solid rgba(180,60,100,0.3) !important;
+    }
+
+    .persona-btn.active {
+      animation: none;
+      background: linear-gradient(180deg, #d84878, #a855c0) !important;
+      color: #ffffff !important;
+      border-color: transparent !important;
+      border-bottom: 3px solid rgba(120,30,80,0.5) !important;
+      box-shadow: 0 4px 12px rgba(224,96,128,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+
+    @media screen and (max-width: 768px) {
+      .persona-btn {
+        padding: 0.7rem 1.3rem !important;
+        font-size: 0.95rem !important;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .persona-btn {
+        padding: 0.6rem 1.1rem !important;
+        font-size: 0.88rem !important;
+      }
+    }
+
+    .teaser-slider-end {
+      font-family: 'Google Sans', 'Noto Sans', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    #gallery-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--bulma-border);
+      outline: none;
+    }
+    #gallery-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #4a90d9;
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+    #gallery-slider::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #4a90d9;
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    .teaser-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: var(--bulma-background);
+      border: 1px solid var(--bulma-border);
+      border-radius: 8px;
+      box-shadow: 0 8px 30px var(--shadow-light);
+      padding: 10px;
+      width: 220px;
+      z-index: 100;
+    }
+
+    .teaser-tooltip img {
+      width: 100%;
+      border-radius: 4px;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .teaser-tooltip p {
+      font-family: 'Noto Sans', sans-serif;
+      font-size: 0.72rem;
+      line-height: 1.4;
+      color: var(--bulma-text);
+      margin: 0;
+    }
+
+    /* Smooth transitions */
+    body, .hero, .section, .footer, a, .button, .title, .subtitle, .theme-toggle {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      body, .hero, .section, .footer, a, .button, .title, .subtitle, .theme-toggle { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Theme toggle -->
+<button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+  <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="5"></circle>
+    <line x1="12" y1="1" x2="12" y2="3"></line>
+    <line x1="12" y1="21" x2="12" y2="23"></line>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+    <line x1="1" y1="12" x2="3" y2="12"></line>
+    <line x1="21" y1="12" x2="23" y2="12"></line>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+  </svg>
+  <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+<!-- Title / Hero -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Back into Plato's Cave:<br>Examining Cross-modal Representational Convergence at Scale</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://akoepke.github.io/">A. Sophia Koepke</a><sup>1,2,3</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=-4l5Il4AAAAJ&hl=en">Daniil Zverev</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://people.eecs.berkeley.edu/~shiry/">Shiry Ginosar</a><sup>4</sup>,</span>
+            <span class="author-block">
+              <a href="https://people.eecs.berkeley.edu/~efros/">Alexei A. Efros</a><sup>1</sup>
+            </span>
+          </div>
+          <div class="is-size-6 publication-authors">
+            <span class="author-block"><sup>1</sup>UC Berkeley</span>
+            <span class="author-block"><sup>2</sup>Technical University of Munich, MCML</span>
+            <span class="author-block"><sup>3</sup>University of T&uuml;bingen, T&uuml;bingen AI Center</span>
+            <span class="author-block"><sup>4</sup>TTIC</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block" style="margin: 0 1.2rem;">
+                <a href="koepke2026_cave_umwelten.pdf" class="external-link button is-normal is-dark">
+                  <span class="icon" style="height: 2.2em; width: auto;"><img src="images/paper_thumb.png" alt="Paper first page" style="height: 2.2em; width: auto; border-radius: 2px;"></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block" style="margin: 0 1.2rem;">
+                <a href="https://github.com/akoepke/cave_umwelten" class="external-link button is-normal is-dark">
+                  <span class="icon" style="height: 2.2em; width: 2.2em;"><i class="fab fa-github" style="font-size: 1.8em;"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+            </div>
+          </div>
+
+          <!-- Persona selector (inside hero) -->
+          <div style="margin-top: 3.5rem; background: var(--bulma-pre-bg); border-radius: 20px; padding: 2rem 2.5rem 1.8rem; border: 1px solid var(--bulma-border);">
+            <p class="has-text-centered" style="font-family: 'Google Sans', 'Noto Sans', sans-serif; font-size: 1.7rem; font-weight: 700; margin-bottom: 1rem;">
+              The <span style="background: linear-gradient(90deg, #e06080, var(--bulma-text-strong)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Platonic Representation Hypothesis</span>:
+            </p>
+            <div class="persona-buttons" style="position: relative; display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap; padding-top: 2.5rem;">
+              <!-- Right hint: above top-right, angled pointing down-left into buttons -->
+              <span id="click-hint-left" class="click-hint" style="position: absolute; top: -1.5rem; left: 2rem; font-family: 'Google Sans', 'Noto Sans', sans-serif; font-size: 1.1rem; font-weight: 600; color: #e04060; transform: rotate(-30deg); transform-origin: bottom right; text-align: center; line-height: 1.2;">
+                click to learn more<br>
+                <span style="display: inline-block; font-size: 1.8rem; transform: rotate(-60deg);">&#x2193;</span>
+              </span>
+              <button class="persona-btn" data-persona="learn" onclick="setPersona('learn', this)" style="padding: 0.6rem 1.3rem; border: 2px solid rgba(224,96,128,0.35); border-radius: 20px; background: rgba(224,96,128,0.05); cursor: pointer; font-family: 'Google Sans', 'Noto Sans', sans-serif; font-size: 0.88rem; font-weight: 600; color: var(--bulma-text); transition: all 0.2s;">
+                Never heard of it? What is it?
+              </button>
+              <div style="display: flex; align-items: center; gap: 0;">
+                <button class="persona-btn" data-persona="cited" data-popup="cited" data-group="cited-or-love" onclick="setPersona('cited', this)" style="padding: 0.6rem 1.3rem; border: 2px solid rgba(224,96,128,0.35); border-radius: 20px; background: rgba(224,96,128,0.05); cursor: pointer; font-family: 'Google Sans', 'Noto Sans', sans-serif; font-size: 0.88rem; font-weight: 600; color: var(--bulma-text); transition: all 0.2s;">
+                  I've cited it
+                </button>
+                <span id="cited-connector" style="width: 1.5rem; height: 2px; background: rgba(224,96,128,0.45); display: inline-block; visibility: hidden; flex-shrink: 0;"></span>
+                <button class="persona-btn" data-persona="love" data-popup="cited" data-group="cited-or-love" onclick="setPersona('love', this)" style="padding: 0.6rem 1.3rem; border: 2px solid rgba(224,96,128,0.35); border-radius: 20px; background: rgba(224,96,128,0.05); cursor: pointer; font-family: 'Google Sans', 'Noto Sans', sans-serif; font-size: 0.88rem; font-weight: 600; color: var(--bulma-text); transition: all 0.2s;">
+                  I love it!
+                </button>
+              </div>
+              <button class="persona-btn" data-persona="skeptic" onclick="setPersona('skeptic', this)" style="padding: 0.6rem 1.3rem; border: 2px solid rgba(224,96,128,0.35); border-radius: 20px; background: rgba(224,96,128,0.05); cursor: pointer; font-family: 'Google Sans', 'Noto Sans', sans-serif; font-size: 0.88rem; font-weight: 600; color: var(--bulma-text); transition: all 0.2s;">
+                I'm skeptical about it
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Persona-specific popups (all hidden by default) -->
+<section id="persona-learn" class="persona-section" style="display:none;">
+  <div class="container is-max-desktop" style="padding: 0 1.5rem 1rem;">
+    <div class="content has-text-justified" style="background: var(--bulma-pre-bg); border-radius: 10px; padding: 1.5rem 2rem; max-width: 800px; margin: 0 auto;">
+      <h3 style="margin-top:0; color: var(--bulma-text-strong);">The Platonic Representation Hypothesis, explained</h3>
+      <p>
+        The idea is appealing: as neural networks get bigger and train on more data, they all converge toward the same representation of reality, regardless of whether they process images, text, or audio. <a href="https://arxiv.org/abs/2405.07987">Huh et al. (2024)</a> called this the <em>Platonic Representation Hypothesis</em>, drawing on Plato's idea that behind the world of appearances lies a single set of ideal forms.
+      </p>
+      <p>
+        If true, this would mean there's one "correct" way to represent the world, and all our models will eventually find it. But we examined the experimental evidence closely and found it to be surprisingly fragile. The alignment was measured on just 1,024 samples with one-to-one pairings. Under more realistic conditions, cross-modal representational alignment decreases dramatically.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="persona-cited" class="persona-section" style="display:none;">
+  <div class="container is-max-desktop" style="padding: 0 1.5rem 1rem;">
+    <div class="content has-text-justified" style="background: var(--bulma-pre-bg); border-radius: 10px; padding: 1.5rem 2rem; max-width: 800px; margin: 0 auto;">
+      <h3 style="margin-top:0; color: var(--bulma-text-strong);">Did you check the experimental evidence?</h3>
+      <p style="background: rgba(168,85,192,0.08); border-radius: 6px; padding: 0.7rem 1rem; margin-bottom: 1rem;">
+        <strong>TL;DR for you:</strong> The evidence was measured on 1,024 samples with one-to-one pairings. That's not how most real data works. When we test under realistic conditions, cross-modal representational alignment decreases significantly.
+      </p>
+      <p>
+        The experimental evidence comes from a highly constrained setting: only <strong>1,024 samples</strong>, <strong>one-to-one</strong> image-text pairings, and a metric evaluated at a small scale. These conditions are far removed from how real-world multi-modal data looks: it is large-scale and inherently many-to-many.
+      </p>
+      <p style="margin-bottom:0;">
+        When we relax the experimental setting (scaling to millions of samples, allowing multiple captions per image, testing with newer models), the alignment trends used to support the hypothesis are no longer observed. This suggests that rather than finding a shared representation, each modality may yield a representation specific to its own <em>Umwelt</em>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="persona-skeptic" class="persona-section" style="display:none;">
+  <div class="container is-max-desktop" style="padding: 0 1.5rem 1rem;">
+    <div class="content has-text-justified" style="background: var(--bulma-pre-bg); border-radius: 10px; padding: 1.5rem 2rem; max-width: 800px; margin: 0 auto;">
+      <h3 style="margin-top:0; color: var(--bulma-text-strong);">You're not alone. We stress-tested the experimental evidence</h3>
+      <p style="background: rgba(66,133,244,0.08); border-radius: 6px; padding: 0.7rem 1rem; margin-bottom: 1rem;">
+        <strong>TL;DR for you:</strong> We use the same metric and same models as the original paper, and show that their experimental evidence breaks at scale, with more realistic data, and newer models. Others have found problems with the hypothesis from different angles.<a href="#fn-related" style="text-decoration:none;"><sup>1</sup></a>
+      </p>
+      <p style="margin-bottom: 1rem;">
+        Specifically, we take the original experimental setup and show that alignment <strong>degrades when scaling</strong> from 1,024 to millions of samples, <strong>breaks when the data is not bijective</strong>, captures only <strong>coarse categorical agreement</strong> rather than fine-grained structure, and the predicted trend that stronger models align more <strong>fails for newer LLMs</strong>. This suggests that rather than finding a shared representation, modalities may yield representations specific to their own <em>Umwelten</em>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+var lastClickedBtn = null;
+var personaClickOrder = [];
+function setPersona(p, clickedBtn) {
+  var popupId = clickedBtn.getAttribute('data-popup') || p;
+  var group = clickedBtn.getAttribute('data-group');
+  var section = document.getElementById('persona-' + popupId);
+  var label = clickedBtn.textContent.trim();
+
+  // Track click order via gtag (distinct events per button, even when they share a popup)
+  if (typeof gtag === 'function') {
+    var isFirstClick = personaClickOrder.length === 0;
+    personaClickOrder.push(label);
+    gtag('event', 'persona_click', {
+      event_category: 'engagement',
+      event_label: label,
+      value: personaClickOrder.length,
+      click_sequence: personaClickOrder.join(' > ')
+    });
+    if (isFirstClick) {
+      gtag('event', 'persona_first_click', {
+        event_category: 'engagement',
+        event_label: label
+      });
+    }
+  }
+
+  // Hide the "click to learn more" hints after first click
+  document.querySelectorAll('.click-hint').forEach(function(h) { h.style.display = 'none'; });
+
+  // Hide all and reset buttons
+  document.querySelectorAll('.persona-section').forEach(s => s.style.display = 'none');
+  document.querySelectorAll('.persona-btn').forEach(b => b.classList.remove('active'));
+  var connector = document.getElementById('cited-connector');
+
+  // Only toggle off if the exact same button was clicked twice
+  if (lastClickedBtn === clickedBtn) {
+    lastClickedBtn = null;
+    if (connector) connector.style.visibility = 'hidden';
+  } else {
+    section.style.display = 'block';
+    lastClickedBtn = clickedBtn;
+    // Activate every button that shares this group (or persona if no group)
+    var selector = group
+      ? '.persona-btn[data-group="' + group + '"]'
+      : '.persona-btn[data-persona="' + p + '"]';
+    document.querySelectorAll(selector).forEach(b => b.classList.add('active'));
+    if (connector) connector.style.visibility = (group === 'cited-or-love') ? 'visible' : 'hidden';
+  }
+}
+</script>
+
+<!-- Motivation -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-11">
+        <h2 class="title is-3">Why Question Platonic Convergence?</h2>
+        <div class="content has-text-justified">
+          <p>
+            Large language models keep solving tasks we thought required vision, like visual question answering, spatial reasoning, even robotic manipulation. This has led some to ask: do we even need pixels, or is language all you need?
+          </p>
+          <p>
+            The <a href="https://arxiv.org/abs/2405.07987">Platonic Representation Hypothesis</a> says it doesn't matter. As neural networks scale, their representations converge toward the same one regardless of modality. If true, you might just use text, since it's a convenient source of data.
+          </p>
+          <p>
+            But there is a reason we visit art museums rather than just read descriptions of paintings in a catalogue. And when we looked closely at the experimental evidence for convergence in the Platonic Representation Hypothesis, we found that it came from a surprisingly limited setting. The evaluations were done on just 1,024 samples with bijective pairings. Under more realistic conditions, what looked like little alignment turns out to be shallow. Both models sometimes agree on broad categories but organize the finer details differently.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<hr style="max-width: 750px; margin: 0 auto;">
+
+<!-- How alignment is measured -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-11">
+        <h2 class="title is-3">How is Alignment Measured?</h2>
+        <div class="content has-text-justified">
+          <p>
+            The core metric used by <a href="https://arxiv.org/abs/2405.07987">Huh et al.</a> to measure cross-modal alignment is <strong>mutual k-nearest neighbors</strong> (mutual k-NN). Given paired image-text data, find the (k) nearest neighbors for each sample in both the vision and the language embedding space. 
+          </p>
+          <p>
+            Use the slider below to grow the dataset size. As it gets denser, both models find closer neighbors, but they stop agreeing on which one:
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container is-max-desktop">
+    <div style="padding: 1rem 0;">
+
+      <div id="interactive-teaser">
+        <!-- Gallery size slider -->
+        <div class="columns is-centered" style="margin-bottom: 0.5rem;">
+          <div class="column is-8">
+            <p class="has-text-centered" style="margin-bottom: 0.5rem;">
+              <strong>Dataset size: <span id="gallery-size-label">1,024</span></strong>
+            </p>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <span class="teaser-slider-end">sparse</span>
+              <input id="gallery-slider" type="range" min="0" max="5" value="0" step="1"
+                style="flex: 1; cursor: pointer;">
+              <span class="teaser-slider-end">dense</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- The visualization -->
+        <div class="teaser-vis-container">
+          <svg id="teaser-svg" viewBox="0 0 960 500" xmlns="http://www.w3.org/2000/svg"></svg>
+
+          <!-- Hover tooltip -->
+          <div id="teaser-tooltip" class="teaser-tooltip" style="display:none;">
+            <img id="tooltip-img" src="" alt="">
+            <p id="tooltip-text"></p>
+          </div>
+        </div>
+
+        <p class="fig-caption">
+          Interactive illustration of the mutual nearest neighbor metric (k=1). Each dot represents an image-text pair in the dataset, shown in image embedding space (left, DINOv2) and text embedding space (right, OpenLlama3b). The <strong style="color:#4285f4">blue dot</strong> is the query, the other colored dots are the nearest neighbors in each space. On a small dataset (1,024 samples), both models agree on the same NN (<strong style="color:#34a853">green</strong>). As the dataset grows denser, each model finds a closer match in its own space, but they are <strong style="color:#d93025">not consistent</strong>. Hover over dots to see their image and caption.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="./teaser_data_default.js"></script>
+<script src="./teaser_script.js"></script>
+
+<hr style="max-width: 750px; margin: 0 auto;">
+
+<!-- Finding 1: Alignment degrades at scale -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-11">
+        <h2 class="title is-3">Alignment Degrades at Scale</h2>
+        <div class="content has-text-justified">
+          <p>
+            The original experimental evidence for the <a href="https://arxiv.org/abs/2405.07987">Platonic Representation Hypothesis</a> used a dataset of just <strong>1,024 samples</strong>. We systematically scaled up to <strong>15 million</strong>, and found that alignment degraded.
+          </p>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <span class="stat-value">13.5%</span>
+            <span class="stat-label">Alignment on<br>WIT-1024 (k=10)</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value">0.8%</span>
+            <span class="stat-label">Alignment on<br>LAION-15M (k=10)</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value">16&times;</span>
+            <span class="stat-label">Drop in alignment<br>when scaling up</span>
+          </div>
+        </div>
+
+        <div class="content has-text-justified">
+          <p>
+            Why does this happen? In a sparse dataset, both modalities tend to retrieve the same neighbors, not necessarily because they agree, but because the pool is too small to reveal their differences. As the dataset gets denser, each modality can find neighbors that are closer <em>in its own space</em>, and the overlap vanishes.
+          </p>
+          <p>
+            Huh et al. themselves ask whether the obtained mutual kNN score is <em>&ldquo;indicative of strong alignment with the remaining gap being &lsquo;noise&rsquo; or does it signify poor alignment with major differences left to explain?&rdquo;</em> When scaling from 1,024 to 15 million samples, the alignment score <strong>drops from 13.5% to just 0.81%</strong>, leaving very little room for a convergence narrative.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop">
+    <div class="figure-pair-grid">
+      <div class="figure-cell">
+        <img src="./images/figures/nested_wit1m_v6style_no_kpct.png" alt="Alignment scores on WIT across dataset sizes">
+        <p class="fig-caption">Scaling the dataset to 1M (WIT) shows a large drop in mutual k-NN alignment for both k=1 and k=10.</p>
+      </div>
+      <div class="figure-cell">
+        <img src="./images/figures/nested_laion15m_v6style_no_kpct.png" alt="Alignment scores on LAION-15M across dataset sizes">
+        <p class="fig-caption">We see a similar alignment degradation on LAION-15M when scaling to 15M samples.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Finding 2: Bijection -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-11">
+        <h2 class="title is-3">Measured Alignment Doesn't Hold Up for Real Data</h2>
+        <div class="content has-text-justified">
+          <p>
+            The original experiments used <strong>one-to-one</strong> image-text pairings. But real data is many-to-many: a single image can be described in countless ways, and a single caption can match many different images. When we progressively add more captions per image or more images per caption, mutual k-NN alignment drops consistently.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop">
+    <div class="figure-pair-grid">
+      <div class="figure-cell">
+        <img src="./images/figures/densifying_tv/densifying_images.png" alt="Alignment when adding more images per caption">
+        <p class="fig-caption">Adding more images per caption using <a href="https://cyclereward.github.io/">CycleReward</a> data. Mutual k-NN alignment decreases consistently for both k=1 and k=10.</p>
+      </div>
+      <div class="figure-cell">
+        <img src="./images/figures/densifying_tv/densifying_texts.png" alt="Alignment when adding more captions per image">
+        <p class="fig-caption">Adding more captions per image gives the same pattern. Alignment drops as the one-to-one setting is relaxed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Finding 3: Coarse vs fine-grained -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-11">
+        <h2 class="title is-3">Coarse Agreement, Not Fine-Grained Convergence</h2>
+        <div class="content has-text-justified">
+          <p>
+            Both models might retrieve a "stone wall", but the vision model finds one with a <em>similar texture</em>, while the language model finds <em>interlocking concrete blocks</em>. Same category, different items.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive stone wall embedding space figure (same style as teaser) -->
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-11">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-top: 2rem; margin-bottom: 0.5rem; justify-content: center;">
+          <span style="font-family: 'Noto Sans', sans-serif; font-size: 0.95rem; font-weight: 600; color: var(--text-muted);">Images per class:</span>
+          <button class="wall-ipc-btn" data-idx="0" style="font-family:'Google Sans',sans-serif; font-size:1rem; font-weight:700; padding:0.4rem 1.2rem; border:2px solid var(--bulma-border); border-radius:6px; background:var(--bulma-background); color:var(--bulma-text); cursor:pointer;">1</button>
+          <button class="wall-ipc-btn" data-idx="1" style="font-family:'Google Sans',sans-serif; font-size:1rem; font-weight:700; padding:0.4rem 1.2rem; border:2px solid var(--bulma-border); border-radius:6px; background:var(--bulma-background); color:var(--bulma-text); cursor:pointer;">9</button>
+          <button class="wall-ipc-btn active" data-idx="2" style="font-family:'Google Sans',sans-serif; font-size:1rem; font-weight:700; padding:0.4rem 1.2rem; border:2px solid var(--bulma-border); border-radius:6px; background:var(--method-name); color:white; cursor:pointer;">49</button>
+        </div>
+        <div style="position: relative;">
+          <svg id="wall-svg" viewBox="0 0 960 420" xmlns="http://www.w3.org/2000/svg"></svg>
+          <div id="wall-tooltip" style="display:none; position:absolute; pointer-events:none; background:var(--bulma-background); border:1px solid var(--bulma-border); border-radius:8px; box-shadow:0 4px 20px var(--shadow-light); padding:8px; max-width:220px; z-index:100;">
+            <img id="wall-tip-img" src="" style="width:100%; border-radius:4px; margin-bottom:4px; display:block;">
+            <p id="wall-tip-txt" style="font-family:'Noto Sans',sans-serif; font-size:0.7rem; line-height:1.35; color:var(--bulma-text); margin:0;"></p>
+          </div>
+        </div>
+        <p class="fig-caption">
+          Each dot represents an image-text pair, shown in both the image embedding space (left, DINOv2) and text embedding space (right, OpenLlama3b). As the number of images per class grows, both models find closer neighbors in their own space, but they no longer agree on the same item. Hover over a dot to see its caption.
+        </p>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function() {
+    const NS = 'http://www.w3.org/2000/svg';
+    const svg = document.getElementById('wall-svg');
+    const tip = document.getElementById('wall-tooltip');
+    const tipImg = document.getElementById('wall-tip-img');
+    const tipTxt = document.getElementById('wall-tip-txt');
+
+    const QI = {x: 210, y: 110}, QT = {x: 730, y: 110};
+    const imgBlob = 'M95,100 C60,60 110,30 200,45 C290,25 340,55 350,100 C370,160 355,260 330,310 C305,355 250,370 190,360 C130,350 80,310 70,260 C55,210 65,150 95,100 Z';
+    const txtBlob = 'M575,90 C560,50 620,30 710,40 C800,30 850,65 860,110 C875,170 860,270 835,315 C810,360 755,375 700,365 C640,355 590,315 580,265 C565,210 560,140 575,90 Z';
+
+    const B = './images/individual_41250/';
+    const queryImg = B + 'query.png';
+    const queryTxt = 'A detailed, close-up view of a traditional dry-stone wall composed of irregularly shaped, naturally colored stones.';
+
+    // Colors assigned per unique item ID (same item = same color across scales)
+    const itemColors = {
+      41251: '#34a853', // match item (green)
+      41259: '#e07030', // burnt orange
+      41265: '#d4a820', // gold
+      41267: '#d84878', // hot pink
+    };
+
+    const data = [
+      { ipc: 1, match: true, dId: 41251, lId: 41251,
+        dImg: B+'dino_nn_ipc1.png', dTxt: 'A traditional stone wall with cantilevered stone steps integrated into its structure.',
+        lImg: B+'llm_nn_ipc1.png', lTxt: 'A traditional stone wall with cantilevered stone steps integrated into its structure.',
+        dDist: 90, lDist: 90 },
+      { ipc: 9, match: false, dId: 41259, lId: 41251,
+        dImg: B+'dino_nn_ipc9.png', dTxt: 'A rustic stone wall with a thick wooden beam embedded in the stonework.',
+        lImg: B+'llm_nn_ipc9.png', lTxt: 'A traditional stone wall with cantilevered stone steps integrated into its structure.',
+        dDist: 65, lDist: 90 },
+      { ipc: 49, match: false, dId: 41265, lId: 41267,
+        dImg: B+'dino_nn_ipc49.png', dTxt: 'A dry-stone wall, an intricate mosaic of limestone rocks without mortar.',
+        lImg: B+'llm_nn_ipc49.png', lTxt: 'A structured wall composed of interlocking concrete blocks, commonly used for retaining soil.',
+        dDist: 45, lDist: 55 },
+    ];
+
+    // Fixed positions per item ID (so items never move between scales)
+    const itemPos = {
+      // Query at (210, 110). Thumbnails 80x60 to the left, need ~70px vertical spacing.
+      // Each item gets its own row in image space so thumbnails don't overlap.
+      // Image space: closer to query (y=110) = better NN. Higher ipc → closer.
+      // Text space: same logic, closer to QT (y=110) = better NN.
+      // Non-NN positions in other modality: far away at bottom.
+      41251: { img: {x:265, y:310}, txt: {x:725, y:310} },   // match (ipc=1) — farthest NN
+      41259: { img: {x:250, y:240}, txt: {x:690, y:340} },   // dino ipc9 — closer in img, far in txt
+      41265: { img: {x:235, y:180}, txt: {x:810, y:330} },   // dino ipc19+ — closest in img, far in txt
+      41267: { img: {x:170, y:250}, txt: {x:740, y:180} },   // llm ipc19+ — closer to img NN area, close in txt
+    };
+
+    function el(tag, attrs) {
+      const e = document.createElementNS(NS, tag);
+      for (const [k,v] of Object.entries(attrs||{})) e.setAttribute(k,v);
+      return e;
+    }
+
+    let hoverEls = [];
+    function clearHover() { hoverEls.forEach(e=>e.remove()); hoverEls=[]; tip.style.display='none'; }
+
+    // Image popup helper (for image space dots)
+    function makeImgPopup(cx, cy, imgSrc) {
+      const g = el('g',{'pointer-events':'none'});
+      const w=100, h=75;
+      const ipx = cx < QI.x ? Math.max(5, cx-w-14) : Math.min(340, cx+14);
+      const ipy = Math.max(5, Math.min(340, cy-h/2));
+      const cid = 'wc-'+Date.now()+'-'+Math.floor(Math.random()*10000);
+      const df=el('defs'), cp=el('clipPath',{id:cid});
+      cp.appendChild(el('rect',{x:ipx,y:ipy,width:w,height:h,rx:'4'}));
+      df.appendChild(cp); g.appendChild(df);
+      g.appendChild(el('rect',{x:ipx-1,y:ipy-1,width:w+2,height:h+2,rx:'5',fill:'var(--bulma-background)',stroke:'var(--bulma-border)','stroke-width':'1'}));
+      g.appendChild(el('image',{href:imgSrc,x:ipx,y:ipy,width:w,height:h,'clip-path':'url(#'+cid+')',preserveAspectRatio:'xMidYMid slice'}));
+      return g;
+    }
+
+    // Caption popup helper (for text space dots)
+    function makeCapPopup(cx, cy, text, queryY) {
+      const g = el('g',{'pointer-events':'none'});
+      // 
+      const truncated = text.length > 80 ? text.slice(0, 77) + '...' : text;
+      const words = truncated.split(' '), lines=[];
+      let line='';
+      for (const w of words) {
+        if (line.length+w.length+1>32 && line) { lines.push(line); line=w; } else { line=line?line+' '+w:w; }
+      }
+      if (line) lines.push(line);
+      const lh=16, pad=8, boxW=240, boxH=lines.length*lh+pad*2;
+      const bx = Math.max(5, Math.min(955-boxW, cx-boxW/2));
+      const showBelow = cy >= queryY;
+      const by = showBelow ? Math.min(400, cy+14) : Math.max(5, cy-boxH-14);
+      g.appendChild(el('rect',{x:bx,y:by,width:boxW,height:boxH,rx:'4',fill:'var(--bulma-background)',stroke:'var(--bulma-border)','stroke-width':'1'}));
+      lines.forEach((ln,i) => {
+        const t=el('text',{x:bx+boxW/2,y:by+pad+(i+1)*lh-3,'text-anchor':'middle','font-family':'Noto Sans,sans-serif','font-size':'12',fill:'var(--bulma-text)'});
+        t.textContent=ln; g.appendChild(t);
+      });
+      return g;
+    }
+
+    function render(idx) {
+      svg.innerHTML = '';
+      const d = data[idx];
+
+      svg.appendChild(el('path',{d:imgBlob, fill:'var(--blob-fill)', opacity:'0.6'}));
+      svg.appendChild(el('path',{d:txtBlob, fill:'var(--blob-fill)', opacity:'0.6'}));
+
+      const mkLbl = (x,y,t) => { const e=el('text',{x,y,'text-anchor':'middle','font-family':'Google Sans,Noto Sans,sans-serif','font-size':'20','font-weight':'700',fill:'var(--bulma-text-strong)'}); e.textContent=t; return e; };
+      svg.appendChild(mkLbl(220,22,'Image Space'));
+      svg.appendChild(mkLbl(740,22,'Text Space'));
+
+      // Query-to-query line
+      svg.appendChild(el('path',{d:`M${QI.x},${QI.y} Q470,${QI.y-35} ${QT.x},${QT.y}`, stroke:'#4285f4','stroke-width':'1.5',fill:'none','stroke-dasharray':'3,4',opacity:'0.4'}));
+
+      const dPos = itemPos[d.dId];
+      const lPos = itemPos[d.lId];
+      const dinoNear = dPos.img;
+      const dinoTxtPos = dPos.txt;
+      const llmNear = lPos.txt;
+      const llmImgPos = lPos.img;
+
+      const dColor = itemColors[d.dId] || '#888';
+      const lColor = itemColors[d.lId] || '#888';
+
+      // NN lines
+      svg.appendChild(el('line',{x1:QI.x,y1:QI.y,x2:dinoNear.x,y2:dinoNear.y,stroke:'#4285f4','stroke-width':'2.5','stroke-dasharray':'6,4',opacity:'0.6'}));
+      svg.appendChild(el('line',{x1:QT.x,y1:QT.y,x2:llmNear.x,y2:llmNear.y,stroke:'#4285f4','stroke-width':'2.5','stroke-dasharray':'6,4',opacity:'0.6'}));
+
+      // Helper: add a thumbnail to the LEFT of an image-space dot
+      function addThumb(cx, cy, imgSrc, borderColor) {
+        const w=95, h=72;
+        const gap = 25;
+        const tx = Math.max(5, cx - w - gap);
+        const ty = Math.max(5, Math.min(355, cy - h/2));
+        svg.appendChild(el('rect',{x:tx-1,y:ty-1,width:w+2,height:h+2,rx:'5',fill:'var(--bulma-background)',stroke:borderColor||'var(--bulma-border)','stroke-width':'2'}));
+        svg.appendChild(el('image',{href:imgSrc,x:tx,y:ty,width:w,height:h,preserveAspectRatio:'xMidYMid meet'}));
+      }
+
+      // Helper: add a truncated caption label next to a text-space dot
+      function addTextLabel(cx, cy, text, color) {
+        const short = text.length > 40 ? text.slice(0, 38) + '...' : text;
+        const tx = cx + 16;
+        const ty = cy + 4;
+        const t = el('text',{x:tx,y:ty,'font-family':'Noto Sans,sans-serif','font-size':'10',fill:color||'var(--bulma-text)',opacity:'0.8'});
+        t.textContent = '\u201c' + short + '\u201d';
+        svg.appendChild(t);
+      }
+
+      // Helper: add a dot with hover that shows caption popup + cross-link
+      function addItem(imgPos, txtPos, color, isImgNN, isTxtNN, img, caption) {
+        const imgDot = el('circle',{cx:imgPos.x,cy:imgPos.y,r:isImgNN?'9':'7',fill:color,stroke:'white','stroke-width':isImgNN?'2.5':'1.5',opacity:isImgNN?'1':'0.75',style:'cursor:pointer'});
+        svg.appendChild(imgDot);
+        if (isImgNN) {
+          svg.appendChild(el('circle',{cx:imgPos.x,cy:imgPos.y,r:'14',fill:'none',stroke:'#4285f4','stroke-width':'2.5'}));
+          const t=el('text',{x:imgPos.x,y:imgPos.y+24,'text-anchor':'middle','font-family':'Noto Sans,sans-serif','font-size':'13','font-weight':'700',fill:'#4285f4'}); t.textContent='NN'; svg.appendChild(t);
+        }
+        // Permanent thumbnail next to image-space dot
+        addThumb(imgPos.x, imgPos.y, img, color);
+
+        const txtDot = el('circle',{cx:txtPos.x,cy:txtPos.y,r:isTxtNN?'9':'7',fill:color,stroke:'white','stroke-width':isTxtNN?'2.5':'1.5',opacity:isTxtNN?'1':'0.75',style:'cursor:pointer'});
+        svg.appendChild(txtDot);
+        if (isTxtNN) {
+          svg.appendChild(el('circle',{cx:txtPos.x,cy:txtPos.y,r:'14',fill:'none',stroke:'#4285f4','stroke-width':'2.5'}));
+          const t=el('text',{x:txtPos.x,y:txtPos.y+24,'text-anchor':'middle','font-family':'Noto Sans,sans-serif','font-size':'13','font-weight':'700',fill:'#4285f4'}); t.textContent='NN'; svg.appendChild(t);
+        }
+
+        function onHover(e) {
+          clearHover();
+          // Cross-link line
+          const mx=(imgPos.x+txtPos.x)/2, my=Math.min(imgPos.y,txtPos.y)-30;
+          const lnk=el('path',{d:`M${imgPos.x},${imgPos.y} Q${mx},${my} ${txtPos.x},${txtPos.y}`,stroke:d.match?'#34a853':'#888','stroke-width':d.match?'2.5':'1.5',fill:'none','stroke-dasharray':d.match?'6,4':'4,3',opacity:'0.7'});
+          svg.appendChild(lnk); hoverEls.push(lnk);
+          // Caption popup near text dot
+          const gT = makeCapPopup(txtPos.x, txtPos.y, caption, QT.y);
+          svg.appendChild(gT); hoverEls.push(gT);
+          // Highlight rings
+          [imgDot,txtDot].forEach(dot => {
+            const hl=el('circle',{cx:dot.getAttribute('cx'),cy:dot.getAttribute('cy'),r:'13',fill:'none',stroke:'#888','stroke-width':'1.5','stroke-dasharray':'3,2',opacity:'0.6','pointer-events':'none'});
+            svg.appendChild(hl); hoverEls.push(hl);
+          });
+        }
+        imgDot.addEventListener('mouseenter', onHover);
+        imgDot.addEventListener('mouseleave', clearHover);
+        txtDot.addEventListener('mouseenter', onHover);
+        txtDot.addEventListener('mouseleave', clearHover);
+      }
+
+      // Permanent cross-link lines connecting each item across spaces
+      if (d.match) {
+        const mx=(dinoNear.x+dinoTxtPos.x)/2, my=Math.min(dinoNear.y,dinoTxtPos.y)-30;
+        svg.appendChild(el('path',{d:`M${dinoNear.x},${dinoNear.y} Q${mx},${my} ${dinoTxtPos.x},${dinoTxtPos.y}`,stroke:'#34a853','stroke-width':'2','stroke-dasharray':'6,4',fill:'none',opacity:'0.5'}));
+      } else {
+        const mx1=(dinoNear.x+dinoTxtPos.x)/2, my1=Math.min(dinoNear.y,dinoTxtPos.y)-30;
+        svg.appendChild(el('path',{d:`M${dinoNear.x},${dinoNear.y} Q${mx1},${my1} ${dinoTxtPos.x},${dinoTxtPos.y}`,stroke:dColor,'stroke-width':'1.5','stroke-dasharray':'4,3',fill:'none',opacity:'0.4'}));
+        const mx2=(llmImgPos.x+llmNear.x)/2, my2=Math.min(llmImgPos.y,llmNear.y)-30;
+        svg.appendChild(el('path',{d:`M${llmImgPos.x},${llmImgPos.y} Q${mx2},${my2} ${llmNear.x},${llmNear.y}`,stroke:lColor,'stroke-width':'1.5','stroke-dasharray':'4,3',fill:'none',opacity:'0.4'}));
+      }
+
+      if (d.match) {
+        addItem(dinoNear, dinoTxtPos, dColor, true, true, d.dImg, d.dTxt);
+      } else {
+        addItem(llmImgPos, llmNear, lColor, false, true, d.lImg, d.lTxt);
+        addItem(dinoNear, dinoTxtPos, dColor, true, false, d.dImg, d.dTxt);
+      }
+
+      // Query dots
+      function addQuery(pos) {
+        const dot=el('circle',{cx:pos.x,cy:pos.y,r:'11',fill:'#4285f4',stroke:'white','stroke-width':'2.5',style:'cursor:pointer'});
+        svg.appendChild(dot);
+        const lbl=el('text',{x:pos.x,y:pos.y-18,'text-anchor':'middle','font-family':'Noto Sans,sans-serif','font-size':'14','font-weight':'700',fill:'#4285f4'}); lbl.textContent='query'; svg.appendChild(lbl);
+        dot.addEventListener('mouseenter', function(e) {
+          clearHover();
+          const mx=(QI.x+QT.x)/2, my=QI.y-40;
+          const lnk=el('path',{d:`M${QI.x},${QI.y} Q${mx},${my} ${QT.x},${QT.y}`,stroke:'#888','stroke-width':'1.5',fill:'none','stroke-dasharray':'4,3',opacity:'0.7'});
+          svg.appendChild(lnk); hoverEls.push(lnk);
+          const gT=makeCapPopup(QT.x, QT.y, queryTxt, QT.y); svg.appendChild(gT); hoverEls.push(gT);
+        });
+        dot.addEventListener('mouseleave', clearHover);
+      }
+      addQuery(QI);
+      addThumb(QI.x, QI.y, queryImg, '#4285f4');
+      addQuery(QT);
+
+    }
+
+    document.querySelectorAll('.wall-ipc-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.wall-ipc-btn').forEach(b => {
+          b.style.background = 'var(--bulma-background)';
+          b.style.color = 'var(--bulma-text)';
+          b.classList.remove('active');
+        });
+        this.style.background = 'var(--method-name)';
+        this.style.color = 'white';
+        this.classList.add('active');
+        render(parseInt(this.dataset.idx));
+      });
+    });
+    render(2);
+  })();
+  </script>
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-11">
+        <div class="content has-text-justified">
+          <p style="margin-top: 2.5rem;">
+            To quantify this phenomenon, we turn to ImageNet, where every image has a class label. We decompose the mutual k-NN metric into three questions:
+          </p>
+          <style>
+            .spoiler-answer { filter: blur(4px); transition: filter 0.3s; cursor: pointer;
+              font-family: 'Comic Sans MS', 'Comic Sans', cursive; font-weight: 600; }
+            .spoiler-answer:hover { filter: none; }
+            .spoiler-answer.a-yes { color: var(--bulma-text); }
+            .spoiler-answer.a-sort { color: var(--bulma-text); }
+            .spoiler-answer.a-no { color: var(--bulma-text); }
+          </style>
+          <ol>
+            <li>Does each model individually retrieve a <em>correct-class</em> neighbor? <span class="spoiler-answer a-yes">Mostly, yes!</span> (<span style="color:#d93025; font-weight:600;">red</span> and <span style="color:#4285f4; font-weight:600;">blue</span> lines)</li>
+            <li>Do <em>both</em> models retrieve a correct-class neighbor? <span class="spoiler-answer a-sort">At increasing rates.</span> (<span style="color:#e07030; font-weight:600;">orange</span> line)</li>
+            <li>Do they agree on the <em>exact same item</em>? <span class="spoiler-answer a-no">Mostly, no!</span> (<span style="color:#2d7d3a; font-weight:600;">dark green</span> line)</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="container is-max-desktop">
+    <div class="figure-container" style="margin: 1.5rem auto; max-width: 420px;">
+      <img src="./images/figures/ipc_alignment_with_accuracy.png" alt="Per-modality retrieval accuracy vs cross-modal alignment" style="width:100%; border-radius: 8px; box-shadow: 0 4px 20px var(--shadow-light);">
+    </div>
+    <p class="fig-caption">Per-modality retrieval accuracy and cross-modal mutual k-NN alignment (k=1) as images per class increase. As the dataset densifies, both DINOv2 and OpenLlama3b individually retrieve correct-class neighbors at rising rates, but cross-modal alignment remains flat: the models agree on the category but not on the specific instance.</p>
+  </div>
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-11">
+        <div class="content has-text-justified">
+          <p style="margin-top: 2.5rem;">
+            The <strong>limited alignment we do observe is just coarse categorical agreement</strong>. Both models know what a stone wall is, but they have fundamentally different ideas about which walls are most similar to each other.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Finding 4: Scaling trend -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-11">
+        <h2 class="title is-3">Stronger Unimodal Models Do Not Seem More Aligned</h2>
+        <div class="content has-text-justified">
+          <p>
+            One argument for convergence was that <em>stronger language models align better with vision models</em>. We tested this across 55 language models and multiple benchmarks.
+          </p>
+          <p>
+            The trend (shown as dashed lines) from the models used in the original Platonic Representation Hypothesis experiments does not seem to hold for recent models (diamonds that are off the lines). Indeed, newer models appear to be specializing in their own modality.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop">
+    <div class="figure-pair-grid">
+      <div class="figure-cell">
+        <img src="./images/figures/trends/mutual_knn_k10_prh_extended_vs_PRH_gsm8k_5shots.png" alt="Trend analysis on GSM8K">
+        <p class="fig-caption"><strong>GSM8K</strong></p>
+      </div>
+      <div class="figure-cell">
+        <img src="./images/figures/trends/mutual_knn_k10_prh_extended_vs_PRH_arc.png" alt="Trend analysis on ARC">
+        <p class="fig-caption"><strong>ARC</strong></p>
+      </div>
+    </div>
+    <div class="figure-pair-grid">
+      <div class="figure-cell">
+        <img src="./images/figures/trends/mutual_knn_k10_prh_extended_vs_PRH_mmlu.png" alt="Trend analysis on MMLU">
+        <p class="fig-caption"><strong>MMLU</strong></p>
+      </div>
+      <div class="figure-cell">
+        <img src="./images/figures/trends/mutual_knn_k10_prh_extended_vs_PRH_logiqa2.png" alt="Trend analysis on LogiQA2">
+        <p class="fig-caption"><strong>LogiQA2</strong></p>
+      </div>
+    </div>
+    <p class="fig-caption has-text-centered" style="max-width: 750px; margin: 0 auto;">
+      Alignment vs. language model capability across four benchmarks. Dashed lines show the original trend from the Platonic Representation Hypothesis; diamonds represent recent models that fall off the predicted scaling curve. Stronger LLMs don't appear to align better with vision.
+    </p>
+  </div>
+
+</section>
+
+
+<hr style="max-width: 750px; margin: 0 auto;">
+
+<!-- Conclusion -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-11">
+        <h2 class="title is-3">Back in the Cave: Models in Their Own <em>Umwelten</em></h2>
+        <div class="content has-text-justified">
+          <p>
+            Nearly a century ago, biologist <a href="https://en.wikipedia.org/wiki/Jakob_Johann_von_Uexk%C3%BCll">Jakob von Uexk&uuml;ll</a> argued that every organism inhabits its own perceptual environment, or <em>Umwelt</em>: a tick lives in a world of thermal gradients, a bat in a world of echoes. The different <em>Umwelten</em> might have only little overlap with each other.<a href="#fn-further" style="text-decoration:none;"><sup>2</sup></a>
+             The same, we believe, might hold
+for our models: each constructs its own representational structure, determined
+by its modality and training data, rather than converging toward a shared model
+of reality. Though it is still early days, we suspect future evidence will favor von
+Uexküll over Plato.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Related work footnote -->
+<section class="section" style="padding-top: 0;">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-11">
+        <hr style="margin-bottom: 1.5rem;">
+        <p style="font-family: 'Noto Sans', sans-serif; font-size: 1.2rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+          <span id="fn-related"><sup>1</sup></span> <strong style="color: var(--bulma-text);">Others have also questioned the hypothesis:</strong>
+        </p>
+        <ul style="font-family: 'Noto Sans', sans-serif; font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 0.75rem; list-style: disc; padding-left: 1.5rem;">
+          <li><strong>Hadgi et al.</strong> (<a href="https://arxiv.org/abs/2503.05283">"Escaping Plato's Cave"</a>): weaker alignment for 3D encoders.</li>
+          <li><strong>Gr&ouml;ger et al.</strong> (<a href="https://arxiv.org/pdf/2602.14486">"Revisiting the Platonic Representation Hypothesis"</a>): CKA confounded by width and depth, global alignment collapses.</li>
+          <li><strong>Tjandrasuwita et al.</strong> (<a href="https://arxiv.org/abs/2502.16282">"Emergence of Multimodal Alignment"</a>): alignment varies with modality similarity.</li>
+          <li><strong>Kumar et al.</strong> (<a href="https://arxiv.org/abs/2505.11581">"Fractured Entangled Representations"</a>): a fractured view of how representations form.</li>
+          <li><strong>Smith et al.</strong> (<a href="https://proceedings.mlr.press/v267/smith25a.html">"Functional Alignment Can Mislead"</a>): model stitching succeeds even between unrelated tasks.</li>
+        </ul>
+        <p style="font-family: 'Noto Sans', sans-serif; font-size: 0.85rem; color: var(--text-muted); font-style: italic;">
+          Please get in touch with us if we have left your paper off this list.
+        </p>
+        <p style="font-family: 'Noto Sans', sans-serif; font-size: 1.2rem; color: var(--text-muted); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+          <strong style="color: var(--bulma-text);">Further reading:</strong>
+        </p>
+        <ul style="font-family: 'Noto Sans', sans-serif; font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 0.75rem; list-style: disc; padding-left: 1.5rem;">
+          <li><span id="fn-further"><sup>2</sup></span> For a grand tour of von Uexk&uuml;ll's ideas, see Jan Koenderink's delightful book <a href="https://gestaltrevision.be/wp-content/uploads/clootcrans_press/2019_Sentience.pdf"><em>Sentience</em> (2019)</a>.</li>
+          <li><a href="https://www.quantamagazine.org/distinct-ai-models-seem-to-converge-on-how-they-encode-reality-20260107/">Distinct AI Models Seem to Converge on How They Encode Reality</a> &mdash; Quanta Magazine</li>
+          <li><a href="https://www.noemamag.com/ai-and-the-limits-of-language/">AI And The Limits Of Language</a> &mdash; Noema Magazine</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BibTeX -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content bibtex-block">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{koepke2026cave,
+  title   = {Back into Plato's Cave: Examining the Evidence for Cross-modal Representational Convergence},
+  author  = {Koepke, A. Sophia and Zverev, Daniil and Ginosar, Shiry and Efros, Alexei A.},
+  year    = {2026}
+}</code></pre>
+  </div>
+</section>
+
+<!-- Acknowledgements -->
+<section class="section" style="padding-bottom: 1rem;">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-11">
+        <p style="font-family: 'Noto Sans', sans-serif; font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; text-align: left;">
+          &#x1F64F; This work was in part supported by the BMFTR (FKZ: 16IS24060), the DFG (SFB 1233, project number: 276693517), NSF IIS-2403305, and ONR MURI. This research utilized compute resources at the T&uuml;bingen Machine Learning Cloud. The authors thank all Efros group members for valuable discussions that shaped this work, and particularly Tyler Bonnen and Amil Dravid for proofreading the draft. Lastly, we thank Phillip Isola for feedback and for sparking this conversation by inviting us out of the cave, which ended up motivating us to go back in to examine the shadows in a new light.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            This website template is based on <a href="https://nerfies.github.io/">Nerfies</a> and licensed under a
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Theme toggle
+  document.getElementById('theme-toggle').addEventListener('click', function() {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    root.style.backgroundColor = next === 'dark' ? '#1a1a1a' : '';
+    localStorage.setItem('theme', next);
+  });
+</script>
+
+
+</body>
+</html>
