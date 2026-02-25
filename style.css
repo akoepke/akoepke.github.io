@@ -94,6 +94,7 @@
 
   /* Border colors */
   --border-primary: #ccc;
+  --border-featured: transparent;
 
   /* Shadow colors */
   --shadow-primary: rgba(0, 0, 0, 0.1);
@@ -105,7 +106,7 @@
   --bg-primary: #1a1a1a;
   --bg-secondary: #2d2d2d;
   --bg-footer: #252525;
-  --bg-featured: #3d2a1f;
+  --bg-featured: transparent;
   --bg-nav-mobile: rgba(45, 45, 45, 0.95);
 
   /* Text colors */
@@ -125,6 +126,7 @@
 
   /* Border colors */
   --border-primary: #555555;
+  --border-featured: #8a6e5a;
 
   /* Shadow colors */
   --shadow-primary: rgba(0, 0, 0, 0.4);
@@ -409,6 +411,18 @@ table {
 
 table#pubs tr.featured td {
   background-color: var(--bg-featured);
+  border-top: 2px solid var(--border-featured);
+  border-bottom: 2px solid var(--border-featured);
+}
+
+table#pubs tr.featured td:first-child {
+  border-left: 2px solid var(--border-featured);
+  border-radius: 6px 0 0 6px;
+}
+
+table#pubs tr.featured td:last-child {
+  border-right: 2px solid var(--border-featured);
+  border-radius: 0 6px 6px 0;
 }
 
 table#pubs tr td:nth-child(1) {
@@ -417,6 +431,8 @@ table#pubs tr td:nth-child(1) {
 
 table#pubs tr td:nth-child(2) {
   width: 75%;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 table#pubs tr td[colspan="2"] {

@@ -14,7 +14,7 @@
   /* Custom colors */
   --method-name: #4a90d9;
   --slider-label: #363636;
-  --shadow-light: var(--shadow-light);
+  --shadow-light: rgba(0, 0, 0, 0.15);
   --text-muted: #666666;
   --button-bg: #ffffff;
   --button-border: #dbdbdb;
