@@ -626,7 +626,7 @@
         The experimental evidence comes from a highly constrained setting: only <strong>1,024 samples</strong>, <strong>one-to-one</strong> image-text pairings, and a metric evaluated at a small scale. These conditions are far removed from how real-world multi-modal data looks: it is large-scale and inherently many-to-many.
       </p>
       <p style="margin-bottom:0;">
-        When we relax the experimental setting (scaling to millions of samples, allowing multiple captions per image, testing with newer models), the alignment trends used to support the hypothesis are no longer observed. This suggests that rather than finding a shared representation, each modality may yield a representation specific to its own <em>Umwelt</em>.
+        When we relax the experimental setting (scaling to millions of samples, allowing multiple captions per image, testing with newer models), the alignment trends used to support the hypothesis are no longer observed. This suggests that rather than finding a shared representation, each modality may yield a representation specific to its own <a href="https://en.wikipedia.org/wiki/Umwelt"><em>Umwelt</em></a>.
       </p>
     </div>
   </div>
@@ -640,7 +640,7 @@
         <strong>TL;DR for you:</strong> We use the same metric and same models as the original paper, and show that their experimental evidence breaks at scale, with more realistic data, and newer models. Others have found problems with the hypothesis from different angles.<a href="#fn-related" style="text-decoration:none;"><sup>1</sup></a>
       </p>
       <p style="margin-bottom: 1rem;">
-        Specifically, we take the original experimental setup and show that alignment <strong>degrades when scaling</strong> from 1,024 to millions of samples, <strong>breaks when the data is not bijective</strong>, captures only <strong>coarse categorical agreement</strong> rather than fine-grained structure, and the predicted trend that stronger models align more <strong>fails for newer LLMs</strong>. This suggests that rather than finding a shared representation, modalities may yield representations specific to their own <em>Umwelten</em>.
+        Specifically, we take the original experimental setup and show that alignment <strong>degrades when scaling</strong> from 1,024 to millions of samples, <strong>breaks when the data is not bijective</strong>, captures only <strong>coarse categorical agreement</strong> rather than fine-grained structure, and the predicted trend that stronger models align more <strong>fails for newer LLMs</strong>. This suggests that rather than finding a shared representation, modalities may yield representations specific to their own <a href="https://en.wikipedia.org/wiki/Umwelt"><em>Umwelten</em></a>.
       </p>
     </div>
   </div>
@@ -1271,7 +1271,7 @@ function setPersona(p, clickedBtn) {
         <h2 class="title is-3">Back in the Cave: Models in Their Own <em>Umwelten</em></h2>
         <div class="content has-text-justified">
           <p>
-            Nearly a century ago, biologist <a href="https://en.wikipedia.org/wiki/Jakob_Johann_von_Uexk%C3%BCll">Jakob von Uexk&uuml;ll</a> argued that every organism inhabits its own perceptual environment, or <em>Umwelt</em>: a tick lives in a world of thermal gradients, a bat in a world of echoes. The different <em>Umwelten</em> might have only little overlap with each other.<a href="#fn-further" style="text-decoration:none;"><sup>2</sup></a>
+            Nearly a century ago, biologist <a href="https://en.wikipedia.org/wiki/Jakob_Johann_von_Uexk%C3%BCll">Jakob von Uexk&uuml;ll</a> argued that every organism inhabits its own perceptual environment, or <a href="https://en.wikipedia.org/wiki/Umwelt"><em>Umwelt</em></a>: a tick lives in a world of thermal gradients, a bat in a world of echoes. The different <em>Umwelten</em> might have only little overlap with each other.<a href="#fn-further" style="text-decoration:none;"><sup>2</sup></a>
              The same, we believe, might hold
 for our models: each constructs its own representational structure, determined
 by its modality and training data, rather than converging toward a shared model
