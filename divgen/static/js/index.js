@@ -15,14 +15,14 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateImages() {
     const count = slider.value;
     console.log('Updating images:', currentExample, count);
-    oursCount.textContent = count;
+    if (oursCount) oursCount.textContent = count;
     const newSrc = `./static/images/${currentExample}/grid_mixed_${count}.jpg`;
     console.log('New image src:', newSrc);
     mixedImages.src = newSrc;
   }
 
   // Slider event listeners - try multiple events for compatibility
-  if (slider && mixedImages && oursCount) {
+  if (slider && mixedImages) {
     slider.addEventListener('input', updateImages);
     slider.addEventListener('change', updateImages);
     slider.oninput = updateImages;
