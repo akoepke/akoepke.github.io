@@ -140,7 +140,7 @@
           <p>
             Contemporary text-to-image models exhibit a surprising degree of mode collapse, as can be seen when sampling several images given the same text prompt. 
             While previous work has attempted to address this issue by steering the model using guidance mechanisms, or by generating a large pool of candidates and refining them, in this work we take a different direction and aim for diversity in generations via noise optimization. Specifically, <strong>we show that a simple noise optimization objective can mitigate mode collapse</strong> while preserving the fidelity of the base model. 
-            We also analyze the frequency characteristics of the noise and show that alternative noise initializations with different frequency profiles can improve both optimization and search.
+            We also analyze the frequency characteristics of the noise and show that <strong>initializing with pink noise</strong> can improve both optimization and search.
             Our experiments demonstrate that noise optimization yields superior results in terms of generation quality and variety.
           </p>
         </div>
@@ -229,6 +229,47 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pink Noise -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-11">
+        <h2 class="title is-3"><span style="color: #ff69b4;">Pink</span> Noise Helps for Free</h2>
+        <br>
+        <p class="content has-text-justified">
+          The choice of noise distribution itself affects diversity. Pretrained diffusion models are typically sampled from i.i.d. Gaussian (white) noise. Initializing instead with <strong>pink noise</strong> (which has enhanced low-frequency content) gives more diverse samples before any optimization, and makes the subsequent noise optimization easier.
+        </p>
+        <br>
+        <div class="columns is-mobile is-centered" style="margin-top: 1.5rem;">
+          <div class="column is-half has-text-centered">
+            <p style="font-weight: 600; margin-bottom: 0.5rem;">White noise init</p>
+            <figure class="image">
+              <img src="./static/images/chair/batch_sdxl_init.jpg" alt="Initial samples from white (i.i.d. Gaussian) noise">
+            </figure>
+            <p style="font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem;">After optimization</p>
+            <figure class="image">
+              <img src="./static/images/chair/batch_sdxl_best.jpg" alt="Optimized samples from white noise init">
+            </figure>
+          </div>
+          <div class="column is-half has-text-centered">
+            <p style="font-weight: 600; margin-bottom: 0.5rem;">Pink noise init</p>
+            <figure class="image">
+              <img src="./static/images/chair/batch_sdxl_pink_init.jpg" alt="Initial samples from pink noise">
+            </figure>
+            <p style="font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem;">After optimization</p>
+            <figure class="image">
+              <img src="./static/images/chair/batch_sdxl_pink_best.jpg" alt="Optimized samples from pink noise init">
+            </figure>
+          </div>
+        </div>
+        <p class="has-text-centered" style="color: var(--text-muted); margin-top: 1rem;">
+          SDXL-Turbo, prompt: <em>"A photo of a chair"</em>.
+        </p>
       </div>
     </div>
   </div>
