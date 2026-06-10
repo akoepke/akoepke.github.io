@@ -131,6 +131,17 @@
   font-size: 1.15rem;
 }
 
+/* Stack the White/Pink grids on narrower screens; add breathing room when stacked */
+@media screen and (max-width: 768px) {
+  .columns.is-mobile.noise-grid-row { flex-direction: column !important; }
+  .columns.is-mobile.noise-grid-row > .column.is-half {
+    width: 100% !important;
+    flex: none !important;
+    max-width: 100% !important;
+  }
+  .columns.is-mobile.noise-grid-row > .column + .column { margin-top: 2.5rem; }
+}
+
 /* Slider styling */
 .image-slider-container .slider {
   margin: 0.5rem 0;

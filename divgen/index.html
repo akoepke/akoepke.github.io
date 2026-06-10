@@ -124,7 +124,7 @@
         <img src="./static/images/teaser.png" alt="Teaser figure showing noise optimization process">
       </div>
       <p class="has-text-centered is-size-5" style="margin-top: 1.5rem; font-weight: 500;">
-        <strong>TL;DR:</strong> We increase diversity in diffusion model outputs that have collapsed to repetitive images by optimizing the initial random noise.
+        <strong>TL;DR:</strong> We optimize the initial random noise to recover diversity from collapsed diffusion models. <span style="color: #ff69b4;">Pink noise</span> instead of white noise gives more diversity for free.
       </p>
     </div>
   </div>
@@ -168,6 +168,48 @@
   </div>
 </section>
 
+<!-- Pink Noise -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-11">
+        <h2 class="title is-3"><span style="color: #ff69b4;">Pink</span> noise gives image diversity for free</h2>
+        <p class="has-text-centered" style="margin-top: -1rem; margin-bottom: 1.5rem; color: var(--text-muted);">Results generated with SDXL-Turbo</p>
+        <p class="content has-text-justified">
+          The choice of noise distribution itself affects the diversity of generated images. Pretrained diffusion models are typically sampled from i.i.d. Gaussian (white) noise. Initializing instead with <strong>pink noise</strong> (which has enhanced low-frequency content) gives more diverse samples before any optimization, and makes the subsequent noise optimization easier.
+        </p>
+        <p class="has-text-centered" style="margin-top: 1.5rem; font-style: italic; color: var(--text-muted);">"A photo of a car"</p>
+        <div class="columns is-mobile is-centered noise-grid-row" style="margin-top: 0.5rem;">
+          <div class="column is-half has-text-centered">
+            <p style="font-weight: 600; margin-bottom: 0.5rem;">White noise</p>
+            <div style="display: flex; align-items: stretch; gap: 0.5rem;">
+              <div style="display: flex; flex-direction: column; justify-content: space-around; font-weight: 600;">
+                <span>i.i.d.</span>
+                <span>Ours</span>
+              </div>
+              <figure class="image" style="flex: 1;">
+                <img src="./static/images/car_pink/white.png" alt="White noise: i.i.d. (top) and Ours (bottom)" style="width: 100%; height: auto;">
+              </figure>
+            </div>
+          </div>
+          <div class="column is-half has-text-centered">
+            <p style="font-weight: 600; margin-bottom: 0.5rem; color: #ff69b4;">Pink noise</p>
+            <div style="display: flex; align-items: stretch; gap: 0.5rem;">
+              <div style="display: flex; flex-direction: column; justify-content: space-around; font-weight: 600;">
+                <span>i.i.d.</span>
+                <span>Ours</span>
+              </div>
+              <figure class="image" style="flex: 1;">
+                <img src="./static/images/car_pink/pink.png" alt="Pink noise: i.i.d. (top) and Ours (bottom)" style="width: 100%; height: auto;">
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Method Overview -->
 <section class="section">
   <div class="container is-widescreen">
@@ -175,7 +217,7 @@
       <div class="column is-full-width">
         <h2 class="title is-3 has-text-centered">Sequential Diverse Generation</h2>
         <p class="has-text-centered" style="margin-top: -1rem; margin-bottom: 1.5rem; color: var(--text-muted);">Results generated with Flux.1 [schnell]</p>
-        
+
         <!-- Interactive Animation -->
         <div class="method-animation">
           <div class="columns is-centered">
@@ -197,7 +239,7 @@
                     <span>Flower</span>
                   </button>
                 </div>
-                
+
                 <!-- Single slider -->
                 <div class="columns is-centered" style="margin-top: 1rem;">
                   <div class="column is-8">
@@ -216,7 +258,7 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <!-- Single mixed image grid -->
                 <div class="columns is-centered" style="margin-top: 1.5rem;">
                   <div class="column is-8">
@@ -229,21 +271,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Pink Noise -->
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-11">
-        <h2 class="title is-3"><span style="color: #ff69b4;">Pink</span> Noise Helps for Free</h2>
-        <br>
-        <p class="content has-text-justified">
-          The choice of noise distribution itself affects diversity. Pretrained diffusion models are typically sampled from i.i.d. Gaussian (white) noise. Initializing instead with <strong>pink noise</strong> (which has enhanced low-frequency content) gives more diverse samples before any optimization, and makes the subsequent noise optimization easier.
-        </p>
       </div>
     </div>
   </div>
