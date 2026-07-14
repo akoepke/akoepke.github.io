@@ -193,7 +193,39 @@ name {
 }
 
 .bio-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  column-gap: 1.2em;
+  row-gap: 0.6em;
   text-align: center;
+}
+
+.bio-links a {
+  white-space: nowrap;
+}
+
+.bio-links .bio-sep {
+  opacity: 0.45;
+}
+
+.bio-links a i {
+  margin-right: 0.4em;
+}
+
+.bio-links a .bio-icon {
+  width: 1em;
+  height: 1em;
+  margin-right: 0.4em;
+  vertical-align: -0.125em;
+}
+
+/* Tighten the gaps once the bio links wrap onto several lines */
+@media (max-width: 650px) {
+  .bio-links {
+    column-gap: 1em;
+  }
 }
 
 /* Specific adjustment for the publications heading */
