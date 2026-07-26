@@ -471,6 +471,13 @@ table#pubs tr td[colspan="2"] {
   width: 100%;
 }
 
+/* Teaser images: let the intrinsic aspect ratio govern at every width, so the
+   width/height attributes only reserve layout space instead of pinning height. */
+table#pubs img {
+  max-width: 100%;
+  height: auto;
+}
+
 .social-icons {
   margin-top: 0.5em;
 }
